@@ -394,8 +394,12 @@ RESPONSIBILITIES: ${v('responsibilities')}`;
 
     // Multi-turn generation to handle long protocols
     let fullProtocol = '';
+    // First request includes files
     let messages = [{role:'user',content}];
+    // Text-only version of first message for continuation (no base64 blobs)
+    const textOnlyFirstMessage = content.filter(c => c.type === 'text');
     let keepGoing = true;
+    let isFirst = true;
 
     while(keepGoing){
       const res = await fetch('https://api.anthropic.com/v1/messages',{
@@ -424,10 +428,12 @@ RESPONSIBILITIES: ${v('responsibilities')}`;
       fullProtocol += chunk;
 
       if(data.stop_reason==='max_tokens'){
+        isFirst = false;
+        // Strip files from history for continuation — use text-only first message
         messages = [
-          ...messages,
-          {role:'assistant',content:chunk},
-          {role:'user',content:'Please continue exactly where you left off. Do not repeat anything already written — just continue the protocol from where it cut off.'}
+          {role:'user', content: firstMsg},
+          {role:'assistant', content: fullProtocol},
+          {role:'user', content:'Please continue exactly where you left off. Do not repeat anything — just continue from where it cut off.'}
         ];
       } else {
         keepGoing = false;
