@@ -1,472 +1,458 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>The Healing Solution — Protocol Builder</title>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>emailjs.init("RLhDGB18biQ1Nl80Q");</script>
-<script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#FDFBF6;font-family:system-ui,sans-serif;padding:24px 16px;color:#0F2907}
-h1{font-size:24px;font-weight:500}
-h2{font-size:17px;font-weight:500;margin-top:24px;margin-bottom:6px;padding-bottom:5px;border-bottom:1.5px solid #F2A0C4;color:#0F2907}
-h3{font-size:15px;font-weight:500;margin-top:16px;margin-bottom:4px;color:#0F2907}
+body{background:#FDFBF6;font-family:system-ui,sans-serif;color:#0F2907;padding:24px 16px}
 .wrap{max-width:800px;margin:0 auto}
 .header{text-align:center;margin-bottom:28px}
 .eyebrow{font-size:11px;letter-spacing:2px;color:#B2B19A;text-transform:uppercase;margin-bottom:5px}
 .divider{width:48px;height:2px;background:#F2A0C4;margin:10px auto 0}
-.intro{background:#FDEEF2;border:1px solid #F2A0C444;border-radius:10px;padding:12px 18px;margin-bottom:22px;font-size:13px;line-height:1.6}
-.section{background:#FDEEF2;border-radius:12px;padding:20px 24px;margin-bottom:20px;border:1px solid #F2A0C433}
-.section-heading{font-size:15px;font-weight:500;color:#0F2907;margin-bottom:14px;padding-bottom:8px;border-bottom:1.5px solid #F2A0C4}
-label{display:block;font-size:13px;font-weight:500;color:#0F2907;margin-bottom:5px;margin-top:10px}
-input,textarea{width:100%;padding:8px 12px;font-size:14px;border-radius:8px;border:1px solid #B2B19A;background:#FDFBF6;color:#0F2907;font-family:inherit;outline:none;margin-bottom:12px}
+.intro{background:#FDEEF2;border:1px solid rgba(242,160,196,0.3);border-radius:10px;padding:12px 18px;margin-bottom:22px;font-size:13px;line-height:1.6;color:#0F2907}
+.sec{background:#FDEEF2;border-radius:12px;padding:20px 24px;margin-bottom:20px;border:1px solid rgba(242,160,196,0.2)}
+.sec-h{font-size:15px;font-weight:600;color:#0F2907;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #F2A0C4}
+label{display:block;font-size:13px;font-weight:500;color:#0F2907;margin-bottom:5px;margin-top:14px}
+input,textarea{width:100%;padding:8px 12px;font-size:14px;border-radius:8px;border:1px solid #B2B19A;background:#FDFBF6;color:#0F2907;font-family:inherit;outline:none;margin-bottom:4px}
 input:focus,textarea:focus{border-color:#F2A0C4}
 textarea{resize:vertical;min-height:80px}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.upload-box{border:1.5px dashed #F2A0C4;border-radius:10px;padding:18px 16px;text-align:center;cursor:pointer;background:#FDFBF6;margin-bottom:14px}
-.upload-box:hover{background:#FDEEF2}
-.upload-icon{font-size:22px;margin-bottom:6px}
-.upload-title{font-size:13px;font-weight:500;color:#0F2907}
-.upload-hint{font-size:11px;color:#B2B19A;margin-top:3px}
-.file-pill{display:flex;align-items:center;gap:8px;background:#FDEEF2;border-radius:8px;padding:7px 12px;margin-bottom:5px;border:1px solid #F2A0C433}
-.file-pill span{flex:1;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.file-pill .sz{font-size:11px;color:#B2B19A;flex-shrink:0}
-.file-pill button{background:none;border:none;color:#B2B19A;cursor:pointer;font-size:16px;padding:0 2px;line-height:1}
-.file-count{background:#F2A0C422;border-radius:8px;padding:8px 14px;font-size:12px;color:#0F2907;margin-top:4px}
-.btn-primary{background:#0F2907;color:#FDFBF6;border:none;border-radius:10px;padding:14px 44px;font-size:15px;font-weight:500;cursor:pointer;display:block;margin:0 auto}
-.btn-primary:disabled{opacity:0.5;cursor:not-allowed}
-.btn-pdf{background:#F2A0C4;color:#0F2907;border:none;border-radius:10px;padding:14px 44px;font-size:15px;font-weight:500;cursor:pointer;display:block;margin:16px auto 0}
-.spinner{width:36px;height:36px;border:3px solid #F2A0C444;border-top:3px solid #F2A0C4;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading{text-align:center;padding:40px;color:#B2B19A;font-size:13px}
+.upload-zone{border:1.5px dashed #F2A0C4;border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:#FDFBF6;margin-bottom:8px}
+.upload-zone:hover{background:#FDEEF2}
+.upload-icon{font-size:20px;margin-bottom:4px}
+.upload-label{font-size:13px;font-weight:500;color:#0F2907}
+.upload-sub{font-size:11px;color:#B2B19A;margin-top:2px}
+.pill{display:flex;align-items:center;gap:8px;background:#FDEEF2;border-radius:8px;padding:7px 12px;margin-bottom:5px;border:1px solid rgba(242,160,196,0.2)}
+.pill span{flex:1;font-size:13px;color:#0F2907;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill .sz{font-size:11px;color:#B2B19A;flex-shrink:0}
+.pill button{background:none;border:none;color:#B2B19A;cursor:pointer;font-size:18px;line-height:1;padding:0;flex-shrink:0}
+.file-count{background:rgba(242,160,196,0.15);border-radius:8px;padding:8px 14px;font-size:12px;color:#0F2907;margin-top:4px}
+.note{font-size:12px;color:#B2B19A;line-height:1.5;margin-bottom:10px;margin-top:4px}
+.btn{background:#0F2907;color:#FDFBF6;border:none;border-radius:10px;padding:14px 48px;font-size:15px;font-weight:600;cursor:pointer;display:block;margin:0 auto}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
 .error{background:#fff0f0;border:1px solid #f2a0a0;border-radius:8px;padding:16px;color:#7a0000;font-size:14px;margin-bottom:20px}
-.protocol-wrap{background:#FDFBF6;border:1px solid #F2A0C455;border-radius:16px;padding:28px 24px;margin-top:16px}
+.loading{text-align:center;padding:40px;color:#B2B19A;font-size:13px}
+.spinner{width:36px;height:36px;border:3px solid rgba(242,160,196,0.3);border-top:3px solid #F2A0C4;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.protocol-box{background:#FDFBF6;border:1px solid rgba(242,160,196,0.4);border-radius:16px;padding:28px 24px;margin-top:16px}
 .protocol-header{text-align:center;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid #F2A0C4}
 .protocol-footer{text-align:center;margin-top:24px;padding-top:16px;border-top:1px solid #F2A0C4;font-size:11px;color:#B2B19A;letter-spacing:1.5px;text-transform:uppercase}
-.protocol-body p{font-size:14px;line-height:1.7;margin-bottom:5px;color:#0F2907}
-.protocol-body .bullet{display:flex;gap:8px;margin-bottom:5px}
-.protocol-body .bullet .dot{color:#F2A0C4;flex-shrink:0}
-.protocol-body .bullet .txt{font-size:14px;line-height:1.65;color:#0F2907}
-.note{font-size:12px;color:#B2B19A;line-height:1.5;margin-bottom:10px}
+.protocol-body h2{font-size:20px;font-weight:700;color:#0F2907;margin-top:28px;margin-bottom:8px}
+.protocol-body h3{font-size:17px;font-weight:700;color:#0F2907;margin-top:28px;margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid #F2A0C4}
+.protocol-body h4{font-size:15px;font-weight:700;color:#0F2907;margin-top:16px;margin-bottom:5px}
+.protocol-body p{font-size:14px;color:#0F2907;line-height:1.75;margin-bottom:7px}
+.protocol-body .bullet{display:flex;gap:8px;margin-bottom:6px}
+.protocol-body .bullet .dot{color:#F2A0C4;font-weight:700;flex-shrink:0}
+.protocol-body .bullet .txt{font-size:14px;color:#0F2907;line-height:1.75}
+.protocol-body .trow{font-size:13px;color:#0F2907;font-family:monospace;background:#FDEEF2;padding:4px 10px;border-radius:4px;margin-bottom:3px}
+.gap{height:6px}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<div class="header">
-  <div class="eyebrow">The Arabella Solution</div>
-  <h1>The Healing Solution</h1>
-  <p style="color:#B2B19A;font-size:14px;margin-top:3px">Personalised Protocol Builder</p>
-  <div class="divider"></div>
-</div>
-
-<div class="intro">Fill in as much detail as possible. The more you share, the more powerful your protocol will be.</div>
-
-<div class="section">
-  <div class="section-heading">Upload Your Documents</div>
-  <p class="note">iPhone photos (HEIC) are fully supported.</p>
-  <label>Symptom Tracker</label>
-  <div class="upload-box" onclick="document.getElementById('f-symptom').click()">
-    <div class="upload-icon">📋</div><div class="upload-title">Click to upload</div><div class="upload-hint">PDF or Word</div>
+  <div class="header">
+    <div class="eyebrow">The Arabella Solution</div>
+    <h1 style="font-size:24px;font-weight:600;color:#0F2907">The Healing Solution</h1>
+    <p style="color:#B2B19A;font-size:14px;margin-top:3px">Personalised Protocol Builder</p>
+    <div class="divider"></div>
   </div>
-  <input type="file" id="f-symptom" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleFile('symptom',this,false)">
-  <div id="p-symptom"></div>
 
-  <label>3-Day Food Diary</label>
-  <div class="upload-box" onclick="document.getElementById('f-food').click()">
-    <div class="upload-icon">🥗</div><div class="upload-title">Click to upload</div><div class="upload-hint">PDF, Word, or image · multiple allowed</div>
-  </div>
-  <input type="file" id="f-food" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.heic,.heif,.webp" multiple style="display:none" onchange="handleFile('food',this,true)">
-  <div id="p-food"></div>
+  <div class="intro">Fill in as much detail as possible and upload your documents below. The more you share, the more specific and powerful your protocol will be.</div>
 
-  <label>Tongue Photo <span style="color:#B2B19A;font-weight:400">(optional)</span></label>
-  <p class="note">iPhone photos work perfectly.</p>
-  <div class="upload-box" onclick="document.getElementById('f-tongue').click()">
-    <div class="upload-icon">📸</div><div class="upload-title">Click to upload</div><div class="upload-hint">JPG, PNG or HEIC</div>
-  </div>
-  <input type="file" id="f-tongue" accept=".jpg,.jpeg,.png,.heic,.heif,.webp" style="display:none" onchange="handleFile('tongue',this,false)">
-  <div id="p-tongue"></div>
+  <!-- UPLOADS -->
+  <div class="sec">
+    <div class="sec-h">Upload Your Documents</div>
+    <p class="note">Accepted formats: PDF, Word (.docx), JPG, PNG.</p>
 
-  <label>Lab Results <span style="color:#B2B19A;font-weight:400">(optional)</span></label>
-  <div class="upload-box" onclick="document.getElementById('f-labs').click()">
-    <div class="upload-icon">🔬</div><div class="upload-title">Click to upload</div><div class="upload-hint">PDF, Word, or image · multiple allowed</div>
-  </div>
-  <input type="file" id="f-labs" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.heic,.heif,.webp" multiple style="display:none" onchange="handleFile('labs',this,true)">
-  <div id="p-labs"></div>
-  <div id="file-count" style="display:none" class="file-count"></div>
-</div>
-
-<div class="section">
-  <div class="section-heading">Health Timeline</div>
-  <textarea id="healthTimeline" placeholder="e.g. Age 12: first period, painful. Age 20: PCOS diagnosis..." style="min-height:120px"></textarea>
-  <label>Upload timeline <span style="color:#B2B19A;font-weight:400">(optional)</span></label>
-  <div class="upload-box" onclick="document.getElementById('f-timeline').click()">
-    <div class="upload-icon">📄</div><div class="upload-title">Click to upload</div><div class="upload-hint">PDF or Word</div>
-  </div>
-  <input type="file" id="f-timeline" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="handleFile('timeline',this,false)">
-  <div id="p-timeline"></div>
-</div>
-
-<div class="section">
-  <div class="section-heading">About You</div>
-  <div class="two-col">
-    <div><label>Your name</label><input type="text" id="name" placeholder="First name" /></div>
-    <div><label>Age</label><input type="text" id="age" placeholder="e.g. 32" /></div>
-  </div>
-  <label>Current diagnoses or conditions</label>
-  <input type="text" id="conditions" placeholder="e.g. PCOS, hypothyroidism, IBS..." />
-  <label>Top 3 health goals</label>
-  <textarea id="goals" placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea>
-  <label>Your top symptoms right now</label>
-  <textarea id="topSymptoms" placeholder="What is bothering you most?"></textarea>
-</div>
-
-<div class="section">
-  <div class="section-heading">Medications, Supplements & Lab Results</div>
-  <label>Current medications (name + dose)</label>
-  <textarea id="medications" placeholder="e.g. Levothyroxine 50mcg daily..."></textarea>
-  <label>Current supplements (name + dose)</label>
-  <textarea id="supplements" placeholder="e.g. Magnesium glycinate 400mg..."></textarea>
-  <label>Lab results (text) <span style="color:#B2B19A;font-weight:400">(optional)</span></label>
-  <textarea id="labResults" placeholder="Paste any results here or upload above."></textarea>
-</div>
-
-<div class="section">
-  <div class="section-heading">Lifestyle & Routines</div>
-  <label>Morning routine</label>
-  <textarea id="morningRoutine" placeholder="What time do you wake? What do you do first?"></textarea>
-  <label>Evening routine</label>
-  <textarea id="eveningRoutine" placeholder="What time do you sleep? How do you wind down?"></textarea>
-  <label>Exercise and movement</label>
-  <textarea id="movement" placeholder="What do you currently do?"></textarea>
-  <label>Food preferences and intolerances</label>
-  <textarea id="foodPreferences" placeholder="Likes, dislikes, intolerances..."></textarea>
-  <label>Responsibilities</label>
-  <input type="text" id="responsibilities" placeholder="e.g. Two children, one dog..." />
-</div>
-
-<div class="section">
-  <div class="section-heading">Emotional, Relational & Spiritual Health</div>
-  <label>How are you feeling emotionally?</label>
-  <textarea id="emotionalState" placeholder="Be as honest as you can."></textarea>
-  <label>Relationships</label>
-  <textarea id="relationships" placeholder="Most significant relationships..."></textarea>
-  <label>Work and career</label>
-  <textarea id="work" placeholder="What do you do, hours, stress level..."></textarea>
-  <label>Social life and community</label>
-  <textarea id="socialLife" placeholder="Friendships, community..."></textarea>
-  <label>Thought life — self-talk, recurring fears</label>
-  <textarea id="thoughtLife" placeholder="What does your inner voice say most often?"></textarea>
-  <label>Spiritual wellbeing</label>
-  <textarea id="spiritualWellbeing" placeholder="Faith practice, relationship with God..."></textarea>
-  <label>New beliefs from Step 1</label>
-  <textarea id="newBeliefs" placeholder="e.g. I am worthy of healing..."></textarea>
-</div>
-
-<div style="text-align:center;margin-bottom:28px">
-  <button class="btn-primary" id="generateBtn" onclick="generateProtocol()">Generate My Protocol</button>
-  <p id="nameWarning" style="font-size:12px;color:#B2B19A;margin-top:8px;display:none">Please enter your name to continue.</p>
-</div>
-
-<div id="errorBox" class="error" style="display:none"></div>
-<div id="loadingBox" class="loading" style="display:none">
-  <div class="spinner"></div>
-  <p id="loadingMsg">Building your personalised healing protocol...<br>This may take up to 2 minutes.</p>
-</div>
-
-<div id="protocolBox" style="display:none">
-  <div class="protocol-wrap">
-    <div class="protocol-header">
-      <div class="eyebrow">The Arabella Solution</div>
-      <div style="font-size:21px;font-weight:500;color:#0F2907;margin:4px 0">Your Personalised Healing Protocol</div>
-      <div id="protocolMeta" style="color:#B2B19A;font-size:13px"></div>
+    <label>Symptom Tracker</label>
+    <p class="note">Your completed Symptom Tracker from Step 1.</p>
+    <div class="upload-zone" onclick="triggerUpload('u-symptom')">
+      <div class="upload-icon">📋</div>
+      <div class="upload-label">Click to upload or drag & drop</div>
+      <div class="upload-sub">PDF or Word</div>
     </div>
-    <div class="protocol-body" id="protocolContent"></div>
-    <div class="protocol-footer">Created by The Arabella Solution</div>
-    <div style="text-align:center;margin-top:24px">
-      <button class="btn-pdf" onclick="downloadPDF()">⬇ Download as PDF</button>
+    <input type="file" id="u-symptom" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="addFile('symptom',this,false)">
+    <div id="pills-symptom"></div>
+
+    <label>3-Day Food Diary</label>
+    <p class="note">Your completed Food Diary.</p>
+    <div class="upload-zone" onclick="triggerUpload('u-food')">
+      <div class="upload-icon">🥗</div>
+      <div class="upload-label">Click to upload or drag & drop</div>
+      <div class="upload-sub">PDF, Word, or image · multiple files allowed</div>
+    </div>
+    <input type="file" id="u-food" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple style="display:none" onchange="addFile('food',this,true)">
+    <div id="pills-food"></div>
+
+    <label>Tongue Photo <span style="font-weight:400;color:#B2B19A">(optional)</span></label>
+    <p class="note">Photo of your tongue in natural light, mouth wide open.</p>
+    <div class="upload-zone" onclick="triggerUpload('u-tongue')">
+      <div class="upload-icon">📸</div>
+      <div class="upload-label">Click to upload or drag & drop</div>
+      <div class="upload-sub">JPG or PNG</div>
+    </div>
+    <input type="file" id="u-tongue" accept=".jpg,.jpeg,.png,.heic,.webp" style="display:none" onchange="addFile('tongue',this,false)">
+    <div id="pills-tongue"></div>
+
+    <label>Lab Results & Scan Reports <span style="font-weight:400;color:#B2B19A">(optional)</span></label>
+    <p class="note">Blood tests, scan reports, diagnostic documents. Multiple files accepted.</p>
+    <div class="upload-zone" onclick="triggerUpload('u-labs')">
+      <div class="upload-icon">🔬</div>
+      <div class="upload-label">Click to upload or drag & drop</div>
+      <div class="upload-sub">PDF, Word, or image · multiple files allowed</div>
+    </div>
+    <input type="file" id="u-labs" accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png" multiple style="display:none" onchange="addFile('labs',this,true)">
+    <div id="pills-labs"></div>
+
+    <div id="file-count" style="display:none" class="file-count"></div>
+  </div>
+
+  <!-- HEALTH TIMELINE -->
+  <div class="sec">
+    <div class="sec-h">Health Timeline</div>
+    <p class="note">Key health turning points in chronological order. Type notes below, upload a document, or both.</p>
+    <label>Health timeline notes</label>
+    <textarea id="healthTimeline" style="min-height:120px" placeholder="- Age 12: first period, very painful&#10;- Age 16: anxiety diagnosis&#10;- Age 20: PCOS diagnosis, told it was incurable&#10;- Age 24: started hormonal contraception..."></textarea>
+    <label>Upload health timeline document <span style="font-weight:400;color:#B2B19A">(optional)</span></label>
+    <div class="upload-zone" onclick="triggerUpload('u-timeline')">
+      <div class="upload-icon">📄</div>
+      <div class="upload-label">Click to upload or drag & drop</div>
+      <div class="upload-sub">PDF or Word</div>
+    </div>
+    <input type="file" id="u-timeline" accept=".pdf,.doc,.docx,.txt" style="display:none" onchange="addFile('timeline',this,false)">
+    <div id="pills-timeline"></div>
+  </div>
+
+  <!-- ABOUT YOU -->
+  <div class="sec">
+    <div class="sec-h">About You</div>
+    <div class="two-col">
+      <div><label>Your name</label><input type="text" id="name" placeholder="First name"></div>
+      <div><label>Age</label><input type="text" id="age" placeholder="e.g. 32"></div>
+    </div>
+    <label>Current diagnoses or conditions</label>
+    <input type="text" id="conditions" placeholder="e.g. PCOS, hypothyroidism, IBS, endometriosis...">
+    <label>Top 3 health goals — how do you want your health and life to feel?</label>
+    <textarea id="goals" placeholder="1. ...&#10;2. ...&#10;3. ..."></textarea>
+    <label>Your top symptoms and concerns right now</label>
+    <textarea id="topSymptoms" placeholder="What is bothering you most? Be as specific as possible."></textarea>
+  </div>
+
+  <!-- MEDS -->
+  <div class="sec">
+    <div class="sec-h">Medications, Supplements & Lab Results</div>
+    <p class="note">If you uploaded lab results above, leave the text field below blank.</p>
+    <label>Current medications (name + dose)</label>
+    <textarea id="medications" placeholder="e.g. Levothyroxine 50mcg daily, combined OCP..."></textarea>
+    <label>Current supplements (name + dose)</label>
+    <textarea id="supplements" placeholder="e.g. Magnesium glycinate 400mg, Vitamin D3 2000IU..."></textarea>
+    <label>Lab results — text <span style="font-weight:400;color:#B2B19A">(optional)</span></label>
+    <textarea id="labResults" placeholder="Paste any results here — or upload files above."></textarea>
+  </div>
+
+  <!-- LIFESTYLE -->
+  <div class="sec">
+    <div class="sec-h">Lifestyle & Routines</div>
+    <label>Morning routine — what does it actually look like right now?</label>
+    <textarea id="morningRoutine" placeholder="What time do you wake? First thing you do? When do you eat?"></textarea>
+    <label>Evening routine — bedtime and wind-down habits</label>
+    <textarea id="eveningRoutine" placeholder="What time do you go to bed? How do you wind down?"></textarea>
+    <label>Exercise and movement</label>
+    <textarea id="movement" placeholder="What do you currently do? What do you enjoy? What do you avoid?"></textarea>
+    <label>Food preferences and known intolerances</label>
+    <textarea id="foodPreferences" placeholder="Likes, dislikes, intolerances, dietary approach..."></textarea>
+    <label>Responsibilities — children, pets, people you care for</label>
+    <input type="text" id="responsibilities" placeholder="e.g. Two children aged 3 and 6, one dog...">
+  </div>
+
+  <!-- EMOTIONAL -->
+  <div class="sec">
+    <div class="sec-h">Emotional, Relational & Spiritual Health</div>
+    <label>How are you feeling emotionally day to day?</label>
+    <textarea id="emotionalState" placeholder="Be as honest as you can — this is medicine too."></textarea>
+    <label>Relationships — partner, family, dynamics or stressors</label>
+    <textarea id="relationships" placeholder="What are your most significant relationships and how are they?"></textarea>
+    <label>Work and career — role, schedule, stress level</label>
+    <textarea id="work" placeholder="What do you do, how many hours, how does it feel?"></textarea>
+    <label>Social life and community</label>
+    <textarea id="socialLife" placeholder="Friendships, community, support systems..."></textarea>
+    <label>Thought life — self-talk patterns, recurring fears or beliefs</label>
+    <textarea id="thoughtLife" placeholder="What does your inner voice say most often?"></textarea>
+    <label>Spiritual wellbeing</label>
+    <textarea id="spiritualWellbeing" placeholder="Faith practice, relationship with God, any questioning or spiritual pain..."></textarea>
+    <label>New beliefs from Step 1</label>
+    <textarea id="newBeliefs" placeholder="e.g. I am worthy of healing. My body is not broken. God made me whole..."></textarea>
+  </div>
+
+  <div id="errorBox" class="error" style="display:none"></div>
+
+  <div style="text-align:center;margin-bottom:28px">
+    <button class="btn" id="generateBtn" onclick="generate()">Generate My Protocol</button>
+  </div>
+
+  <div id="loadingBox" class="loading" style="display:none">
+    <div class="spinner"></div>
+    <p>Building your personalised healing protocol...<br><span style="font-size:12px">This may take a few minutes — your protocol is being built with full clinical depth.</span></p>
+  </div>
+
+  <div id="protocolBox" style="display:none">
+    <div class="protocol-box">
+      <div class="protocol-header">
+        <div class="eyebrow">The Arabella Solution</div>
+        <div style="font-size:21px;font-weight:700;color:#0F2907;margin:4px 0">Your Personalised Healing Protocol</div>
+        <div id="protocolMeta" style="color:#B2B19A;font-size:13px"></div>
+      </div>
+      <div class="protocol-body" id="protocolContent"></div>
+      <div class="protocol-footer">Created by The Arabella Solution</div>
     </div>
   </div>
-</div>
 
 </div>
+
 <script>
-const ANTHROPIC_API_KEY = 'const ANTHROPIC_API_KEY = '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';';
-
 const FILES = {symptom:[],food:[],tongue:[],labs:[],timeline:[]};
 
-function handleFile(key,input,multi){
-  const chosen=Array.from(input.files);
-  if(!chosen.length)return;
-  if(multi)FILES[key]=[...FILES[key],...chosen];
-  else FILES[key]=[chosen[0]];
-  renderPills(key);updateFileCount();input.value='';
+function triggerUpload(id){ document.getElementById(id).click(); }
+
+function addFile(key, input, multi){
+  const chosen = Array.from(input.files);
+  if(!chosen.length) return;
+  FILES[key] = multi ? [...FILES[key], ...chosen] : [chosen[0]];
+  renderPills(key);
+  updateCount();
+  input.value="";
 }
+
 function renderPills(key){
-  const el=document.getElementById('p-'+key);
-  el.innerHTML=FILES[key].map((f,i)=>`<div class="file-pill"><span>✓ ${f.name}</span><span class="sz">${(f.size/1024).toFixed(0)}kb</span><button onclick="removeFile('${key}',${i})">×</button></div>`).join('');
+  document.getElementById('pills-'+key).innerHTML = FILES[key].map((f,i)=>`
+    <div class="pill">
+      <span>✓ ${f.name}</span>
+      <span class="sz">${(f.size/1024).toFixed(0)}kb</span>
+      <button onclick="removeFile('${key}',${i})">×</button>
+    </div>`).join('');
 }
-function removeFile(key,i){FILES[key].splice(i,1);renderPills(key);updateFileCount();}
-function updateFileCount(){
-  const total=Object.values(FILES).flat().length;
-  const el=document.getElementById('file-count');
-  if(total>0){el.style.display='block';el.textContent=`✓ ${total} file${total!==1?'s':''} ready`;}
+
+function removeFile(key,i){ FILES[key].splice(i,1); renderPills(key); updateCount(); }
+
+function updateCount(){
+  const t = Object.values(FILES).flat().length;
+  const el = document.getElementById('file-count');
+  if(t>0){el.style.display='block';el.textContent=`✓ ${t} file${t!==1?'s':''} ready to be included in your protocol`;}
   else el.style.display='none';
 }
-async function toBase64(file){
-  return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});
+
+function v(id){ return document.getElementById(id).value.trim(); }
+
+function fmt(t){
+  return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>');
 }
-async function toText(file){
-  return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsText(file);});
-}
-async function convertImageToJpeg(file){
-  const n=file.name.toLowerCase();
-  const isHeic=file.type==='image/heic'||file.type==='image/heif'||n.endsWith('.heic')||n.endsWith('.heif');
-  if(isHeic&&typeof heic2any!=='undefined'){
-    try{
-      const blob=await heic2any({blob:file,toType:'image/jpeg',quality:0.85});
-      return new File([blob],file.name.replace(/\.hei[cf]$/i,'.jpg'),{type:'image/jpeg'});
-    }catch(e){console.warn('HEIC conversion failed',e);}
-  }
-  return new Promise(res=>{
-    const url=URL.createObjectURL(file);
-    const img=new Image();
-    img.onload=()=>{
-      const c=document.createElement('canvas');
-      c.width=img.width;c.height=img.height;
-      c.getContext('2d').drawImage(img,0,0);
-      c.toBlob(blob=>{URL.revokeObjectURL(url);res(new File([blob],file.name.replace(/\.[^.]+$/,'.jpg'),{type:'image/jpeg'}));},'image/jpeg',0.85);
-    };
-    img.onerror=()=>{URL.revokeObjectURL(url);res(file);};
-    img.src=url;
+
+function renderProtocol(text){
+  const lines = text.split('\n');
+  let html = '';
+  let blanks = 0;
+  lines.forEach(line => {
+    if(!line.trim()){ blanks++; if(blanks===1) html+='<div class="gap"></div>'; return; }
+    blanks=0;
+    if(line.startsWith('## ')) html+=`<h3>${line.slice(3)}</h3>`;
+    else if(line.startsWith('### ')) html+=`<h4>${line.slice(4)}</h4>`;
+    else if(line.startsWith('# ')) html+=`<h2>${line.slice(2)}</h2>`;
+    else if(line.startsWith('- ')||line.startsWith('• ')) html+=`<div class="bullet"><span class="dot">•</span><span class="txt">${fmt(line.slice(2))}</span></div>`;
+    else if(/^\d+\./.test(line)) html+=`<div class="bullet"><span class="dot" style="color:#0F2907;min-width:20px">${line.match(/^\d+/)[0]}.</span><span class="txt">${fmt(line.replace(/^\d+\.\s*/,''))}</span></div>`;
+    else if(line.startsWith('|')) html+=`<div class="trow">${line}</div>`;
+    else html+=`<p>${fmt(line)}</p>`;
   });
+  return html;
 }
-function isImageFile(file){
-  return file.type.startsWith('image/')||/\.(heic|heif|jpg|jpeg|png|gif|webp)$/i.test(file.name);
-}
-async function buildContent(userText){
-  const allFiles=[
+
+async function toBase64(file){ return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);}); }
+async function toText(file){ return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsText(file);}); }
+
+const SYSTEM_PROMPT = `You are the The Healing Solution Protocol AI — a personalised healing protocol builder created by Arabella Blaker, founder of The Healing Solution (The Arabella Solution). You are a naturopath and nutritional therapist trained at the College of Naturopathic Medicine London, specialising in PCOS, hormonal imbalances, gut health, chronic fatigue, endometriosis, and weight loss resistance.
+
+You speak with clinical authority, warmth, and directness. You never give generic advice. Everything you produce is built entirely for the woman in front of you.
+
+Your clinical framework draws from:
+- Naturopathic medicine — treat the whole person, address root cause, support the body's innate healing intelligence
+- Traditional Chinese Medicine — Qi and Blood, organ systems, tongue diagnosis, warming and cooling food energetics
+- Functional medicine — gut-brain axis, HPA axis, hormonal cascade, mitochondrial health
+- Christian faith integration — the body as God's temple, healing as stewardship, Spirit-led restoration, scripture as medicine
+
+IMPORTANT CLINICAL SAFETY RULE: NEVER recommend supplements if medication status is unconfirmed or if there is any risk of interaction without flagging it prominently. Always say "team at The Arabella Solution" not "Sydona".
+
+Generate the full personalised healing protocol in this EXACT order with full depth:
+1. Opening: Your Healing Picture (3-4 sentences, deeply personal, references her actual data)
+2. Symptom Tracker Summary (total score, list systems with High/Medium/Low Priority)
+3. Tongue Reading (if provided — TCM and functional medicine interpretation; if not, note briefly and move on)
+4. Phase 1: Intensive Clearing (Weeks 1-3)
+5. Phase 2: Deepening (Weeks 4-9)
+6. Phase 3: Reintegration (Ongoing)
+7. THE 12 PILLARS — each specific, actionable, from her data only:
+## Pillar 1 — Root Causes: 3 primary drivers with full physiology, connection to symptom scores, what protocol targets
+## Pillar 2 — Goals: her 3 goals in clinical language
+## Pillar 3 — Spirituality and Faith: specific practices, prayer anchors, scriptures
+## Pillar 4 — Mindset and Beliefs: her new beliefs, neurobiological science
+## Pillar 5 — Nutrition: food diary + constitution + TCM energetics
+## Pillar 6 — Digestion Support: targeted to her scores and tongue findings
+## Pillar 7 — Supplements and Herbs: priority tiers, name/form/dose/reason, PROMINENT SAFETY NOTE, team at The Arabella Solution for review
+## Pillar 8 — Sleep: her pattern, cortisol awakening response, HPA axis
+## Pillar 9 — Lifestyle: morning/evening routines, movement, boundaries
+## Pillar 10 — Emotional Work: her emotional pattern, warm pep talk, 12 tailored shadow work prompts
+## Pillar 11 — Rest, Play, and Connection: her prescriptions
+## Pillar 12 — Testing and Tracking: table of recommended bloods (Test | Ideal Range | Why), evaluate existing results, milestones at Week 6 and Week 12
+8. Example Day — full day built around her actual schedule
+9. Further Support Available
+10. Closing Scripture and Encouragement — one scripture specifically chosen for her, brief note on why relevant, one final line of encouragement
+11. Clinical Note — end WORD FOR WORD:
+"This is your personalised clinical starting template, built from your complete documents, health history, tongue assessment, and personal information. The team at The Arabella Solution will review this protocol with you before you begin any supplements or make significant changes. This document was generated by The Healing Solution Protocol AI — always cross-reference supplement decisions with a qualified practitioner. AI supports your healing journey; it does not replace clinical oversight.
+From Arabella: She wants you to know she is so proud of you — genuinely. You did this properly, you gave it everything it needed, and now you have something real to work with. She is so excited for what is coming for you."
+
+FORMAT RULES:
+- Use ## headings, ### subheadings, bullet points, **bold**, *italic* throughout
+- Never write long unbroken paragraphs — break everything up
+- Never leave a section empty — every pillar must have substantial content
+- Never skip a pillar — all 12 must be fully written
+- Every section must flow directly into the next with no large gaps
+- Created by The Arabella Solution`;
+
+async function generate(){
+  const name = v('name');
+  if(!name){ showError('Please enter your name to continue.'); return; }
+
+  document.getElementById('generateBtn').disabled=true;
+  document.getElementById('errorBox').style.display='none';
+  document.getElementById('protocolBox').style.display='none';
+  document.getElementById('loadingBox').style.display='block';
+
+  const userText = `Generate the full personalised healing protocol now. Do not ask for more information — use everything provided.
+
+CLIENT: ${name}, Age: ${v('age')}
+CONDITIONS: ${v('conditions')}
+GOALS: ${v('goals')}
+TOP SYMPTOMS: ${v('topSymptoms')}
+SYMPTOM TRACKER: See uploaded file.
+FOOD DIARY: See uploaded file.
+HEALTH TIMELINE: ${v('healthTimeline')||'See uploaded document if provided.'}
+MEDICATIONS: ${v('medications')||'None stated.'}
+SUPPLEMENTS: ${v('supplements')||'None stated.'}
+LAB RESULTS: ${v('labResults')||'See uploaded files if provided.'}
+EMOTIONAL STATE: ${v('emotionalState')}
+RELATIONSHIPS: ${v('relationships')}
+WORK: ${v('work')}
+SOCIAL LIFE: ${v('socialLife')}
+THOUGHT LIFE: ${v('thoughtLife')}
+SPIRITUAL WELLBEING: ${v('spiritualWellbeing')}
+NEW BELIEFS: ${v('newBeliefs')||'Not provided.'}
+MORNING ROUTINE: ${v('morningRoutine')}
+EVENING ROUTINE: ${v('eveningRoutine')}
+MOVEMENT: ${v('movement')}
+FOOD PREFERENCES: ${v('foodPreferences')}
+RESPONSIBILITIES: ${v('responsibilities')}`;
+
+  const allFiles = [
     ...FILES.symptom.map(f=>({file:f,label:'Symptom Tracker'})),
     ...FILES.food.map(f=>({file:f,label:'Food Diary'})),
     ...FILES.tongue.map(f=>({file:f,label:'Tongue Photo'})),
     ...FILES.labs.map(f=>({file:f,label:'Lab Results'})),
     ...FILES.timeline.map(f=>({file:f,label:'Health Timeline'})),
   ];
-  const content=[];
-  for(const {file,label} of allFiles){
-    try{
-      if(isImageFile(file)){
-        const converted=await convertImageToJpeg(file);
-        const b64=await toBase64(converted);
-        content.push({type:'text',text:`[Uploaded: ${label} — ${file.name}]`});
-        content.push({type:'image',source:{type:'base64',media_type:'image/jpeg',data:b64}});
-      }else if(file.type==='application/pdf'){
-        const b64=await toBase64(file);
-        content.push({type:'text',text:`[Uploaded: ${label} — ${file.name}]`});
-        content.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}});
-      }else{
-        const txt=await toText(file);
-        content.push({type:'text',text:`[Uploaded: ${label} — ${file.name}]\n${txt}`});
+
+  try {
+    const content = [];
+    for(const {file,label} of allFiles){
+      try{
+        if(file.type.startsWith('image/')){
+          const b64 = await toBase64(file);
+          content.push({type:'text',text:`[${label}: ${file.name}]`});
+          content.push({type:'image',source:{type:'base64',media_type:file.type,data:b64}});
+        } else if(file.type==='application/pdf'){
+          const b64 = await toBase64(file);
+          content.push({type:'text',text:`[${label}: ${file.name}]`});
+          content.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:b64}});
+        } else {
+          const txt = await toText(file);
+          content.push({type:'text',text:`[${label}: ${file.name}]\n${txt}`});
+        }
+      } catch{ content.push({type:'text',text:`[Could not read: ${file.name}]`}); }
+    }
+    content.push({type:'text',text:userText});
+
+    // Multi-turn generation to handle long protocols
+    let fullProtocol = '';
+    let messages = [{role:'user',content}];
+    let keepGoing = true;
+
+    while(keepGoing){
+      const res = await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json',
+          'x-api-key':'anthropic-dangerous-direct-browser-access',
+          'anthropic-version':'2023-06-01',
+        },
+        body:JSON.stringify({
+          model:'claude-sonnet-4-20250514',
+          max_tokens:8000,
+          system:SYSTEM_PROMPT,
+          messages,
+        })
+      });
+
+      const data = await res.json();
+
+      if(!data?.content?.[0]?.text){
+        showError(`API error: ${data?.error?.message||JSON.stringify(data)}`);
+        return;
       }
-    }catch(e){content.push({type:'text',text:`[Could not read: ${file.name}]`});}
-  }
-  content.push({type:'text',text:userText});
-  return content;
-}
-async function callAPI(systemPrompt,content){
-  const res=await fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'x-api-key':ANTHROPIC_API_KEY,
-      'anthropic-version':'2023-06-01',
-      'anthropic-dangerous-direct-browser-access':'true'
-    },
-    body:JSON.stringify({
-      model:'claude-sonnet-4-5',
-      max_tokens:8000,
-      system:systemPrompt,
-      messages:[{role:'user',content}]
-    })
-  });
-  const data=await res.json();
-  if(data.error)throw new Error(data.error.message);
-  if(!data.content?.[0]?.text)throw new Error('No response received');
-  return data.content[0].text;
-}
 
-const BASE_SYSTEM=`You are the The Healing Solution Protocol AI — a personalised healing protocol builder created by Arabella Blaker, founder of The Healing Solution (The Arabella Solution). You are a naturopath and nutritional therapist trained at the College of Naturopathic Medicine London, specialising in PCOS, hormonal imbalances, gut health, chronic fatigue, endometriosis, and weight loss resistance. You speak with clinical authority, warmth, and directness. Never give generic advice. Everything is built for this specific woman.
+      const chunk = data.content[0].text;
+      fullProtocol += chunk;
 
-Clinical framework: Naturopathic medicine, Traditional Chinese Medicine, Functional medicine, Christian faith integration.
-
-SAFETY RULE: Never recommend supplements without flagging interaction risks. Always say "team at The Arabella Solution" not "Sydona".
-FORMAT: Use ## headings, ### subheadings, bullet points, **bold**, *italic*. Never write long unbroken paragraphs.`;
-
-const SYSTEM_PART1=BASE_SYSTEM+`
-
-Generate PART 1 of the protocol covering:
-1. Opening: Your Healing Picture (3-4 deeply personal sentences referencing her actual data)
-2. Symptom Tracker Summary (total score, systems listed as High/Medium/Low Priority)
-3. Tongue Reading (TCM + functional medicine interpretation if photo provided; if not, note briefly)
-4. Phase 1: Intensive Clearing (Weeks 1-3)
-5. Phase 2: Deepening (Weeks 4-9)
-6. Phase 3: Reintegration (Ongoing)
-7. Pillar 1 — Root Causes: 3 primary drivers with full physiology
-8. Pillar 2 — Goals: her 3 goals in clinical language
-9. Pillar 3 — Spirituality and Faith: specific practices, prayer anchors, scriptures
-10. Pillar 4 — Mindset and Beliefs: her new beliefs with neurobiological science
-11. Pillar 5 — Nutrition: food diary + TCM energetics + constitution
-12. Pillar 6 — Digestion Support: targeted to her scores and tongue
-
-End with: "— CONTINUED IN PART 2 —"`;
-
-const SYSTEM_PART2=BASE_SYSTEM+`
-
-Generate PART 2 of the protocol covering:
-1. Pillar 7 — Supplements and Herbs: priority tiers, name/form/dose/reason, PROMINENT SAFETY NOTE
-2. Pillar 8 — Sleep: her pattern, cortisol awakening response, HPA axis
-3. Pillar 9 — Lifestyle: morning/evening routines, movement, boundaries
-4. Pillar 10 — Emotional Work: her pattern, warm pep talk, 12 tailored shadow work prompts
-5. Pillar 11 — Rest, Play, and Connection: her prescriptions
-6. Pillar 12 — Testing and Tracking: table of recommended bloods (Test | Ideal Range | Why), milestones at Week 6 and Week 12
-7. Example Day — full day built around her actual schedule
-8. Further Support Available
-9. Closing Scripture and Encouragement — one scripture chosen for her, why it is relevant, one final line of encouragement
-10. Clinical Note — end WORD FOR WORD:
-"This is your personalised clinical starting template, built from your complete documents, health history, tongue assessment, and personal information. The team at The Arabella Solution will review this protocol with you before you begin any supplements or make significant changes. This document was generated by The Healing Solution Protocol AI — always cross-reference supplement decisions with a qualified practitioner. AI supports your healing journey; it does not replace clinical oversight.
-From Arabella: She wants you to know she is so proud of you — genuinely. You did this properly, you gave it everything it needed, and now you have something real to work with. She is so excited for what is coming for you. 🤍"`;
-
-async function generateProtocol(){
-  const name=document.getElementById('name').value.trim();
-  if(!name){document.getElementById('nameWarning').style.display='block';return;}
-  document.getElementById('nameWarning').style.display='none';
-  document.getElementById('generateBtn').disabled=true;
-  document.getElementById('errorBox').style.display='none';
-  document.getElementById('protocolBox').style.display='none';
-  document.getElementById('loadingBox').style.display='block';
-
-  const g=id=>document.getElementById(id).value.trim();
-  const clientData=`CLIENT: ${name}, Age ${g('age')}
-CONDITIONS: ${g('conditions')}
-GOALS: ${g('goals')}
-TOP SYMPTOMS: ${g('topSymptoms')}
-HEALTH TIMELINE: ${g('healthTimeline')||'See uploaded document.'}
-MEDICATIONS: ${g('medications')||'None stated.'}
-SUPPLEMENTS: ${g('supplements')||'None stated.'}
-LAB RESULTS: ${g('labResults')||'See uploaded files.'}
-EMOTIONAL STATE: ${g('emotionalState')}
-RELATIONSHIPS: ${g('relationships')}
-WORK: ${g('work')}
-SOCIAL LIFE: ${g('socialLife')}
-THOUGHT LIFE: ${g('thoughtLife')}
-SPIRITUAL WELLBEING: ${g('spiritualWellbeing')}
-NEW BELIEFS: ${g('newBeliefs')||'Not provided.'}
-MORNING ROUTINE: ${g('morningRoutine')}
-EVENING ROUTINE: ${g('eveningRoutine')}
-MOVEMENT: ${g('movement')}
-FOOD PREFERENCES: ${g('foodPreferences')}
-RESPONSIBILITIES: ${g('responsibilities')}`;
-
-  try{
-    document.getElementById('loadingMsg').innerHTML='Building Part 1 of your protocol...<br>Please wait.';
-    const content1=await buildContent(`Generate Part 1 of the protocol now. Use all data provided.\n\n${clientData}`);
-    const part1=await callAPI(SYSTEM_PART1,content1);
-
-    document.getElementById('loadingMsg').innerHTML='Building Part 2 of your protocol...<br>Almost done!';
-    const content2=await buildContent(`Generate Part 2 of the protocol now. Here is the client data for reference:\n\n${clientData}`);
-    const part2=await callAPI(SYSTEM_PART2,content2);
-
-    const fullProtocol=part1+'\n\n'+part2;
+      if(data.stop_reason==='max_tokens'){
+        messages = [
+          ...messages,
+          {role:'assistant',content:chunk},
+          {role:'user',content:'Please continue exactly where you left off. Do not repeat anything already written — just continue the protocol from where it cut off.'}
+        ];
+      } else {
+        keepGoing = false;
+      }
+    }
 
     document.getElementById('loadingBox').style.display='none';
-    document.getElementById('protocolMeta').textContent=`${name} · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}`;
-    document.getElementById('protocolContent').innerHTML=renderProtocol(fullProtocol);
+    document.getElementById('protocolMeta').textContent = `${name} · ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}`;
+    document.getElementById('protocolContent').innerHTML = renderProtocol(fullProtocol);
     document.getElementById('protocolBox').style.display='block';
     document.getElementById('protocolBox').scrollIntoView({behavior:'smooth'});
 
+    // Email notification
     try{
       await emailjs.send('service_x0howor','template_ln26mjw',{
-        client_name:name,client_age:g('age'),conditions:g('conditions'),
-        date:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}),
-        protocol_summary:fullProtocol.substring(0,4000)
+        client_name: name,
+        client_age: v('age'),
+        conditions: v('conditions'),
+        date: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}),
+        protocol_summary: fullProtocol.substring(0,4000)
       });
-    }catch(e){console.warn('Email failed:',e);}
+    } catch(e){ console.warn('Email failed:',e); }
 
-  }catch(e){
-    document.getElementById('loadingBox').style.display='none';
-    document.getElementById('errorBox').style.display='block';
-    document.getElementById('errorBox').textContent='Error: '+e.message+'. Please try again.';
+  } catch(e){
+    showError(`Error: ${e.message}`);
   }
+
   document.getElementById('generateBtn').disabled=false;
 }
 
-function downloadPDF(){
-  const {jsPDF}=window.jspdf;
-  const doc=new jsPDF({unit:'mm',format:'a4'});
-  const pageW=doc.internal.pageSize.getWidth();
-  const pageH=doc.internal.pageSize.getHeight();
-  const margin=18;const maxW=pageW-margin*2;let y=margin;
-
-  function checkPage(h){if(y+h>pageH-margin){doc.addPage();y=margin;}}
-
-  doc.setFontSize(9);doc.setTextColor(178,177,154);
-  doc.text('THE ARABELLA SOLUTION',pageW/2,y,{align:'center'});y+=7;
-  doc.setFontSize(18);doc.setTextColor(15,41,7);doc.setFont('helvetica','bold');
-  doc.text('Your Personalised Healing Protocol',pageW/2,y,{align:'center'});y+=6;
-  doc.setFontSize(10);doc.setFont('helvetica','normal');doc.setTextColor(178,177,154);
-  doc.text(document.getElementById('protocolMeta').textContent,pageW/2,y,{align:'center'});y+=5;
-  doc.setDrawColor(242,160,196);doc.setLineWidth(0.5);doc.line(margin,y,pageW-margin,y);y+=8;
-
-  const lines=document.getElementById('protocolContent').innerText.split('\n');
-  for(const line of lines){
-    const t=line.trim();
-    if(!t){y+=3;continue;}
-    if(t.startsWith('## ')){
-      checkPage(12);y+=3;
-      doc.setFontSize(13);doc.setFont('helvetica','bold');doc.setTextColor(15,41,7);
-      const wrapped=doc.splitTextToSize(t.slice(3),maxW);
-      doc.text(wrapped,margin,y);y+=wrapped.length*6+2;
-      doc.setDrawColor(242,160,196);doc.line(margin,y,pageW-margin,y);y+=4;
-    }else if(t.startsWith('### ')){
-      checkPage(8);
-      doc.setFontSize(11);doc.setFont('helvetica','bold');doc.setTextColor(15,41,7);
-      const wrapped=doc.splitTextToSize(t.slice(4),maxW);
-      doc.text(wrapped,margin,y);y+=wrapped.length*5+3;
-    }else if(t.startsWith('• ')||t.startsWith('- ')){
-      doc.setFontSize(10);doc.setFont('helvetica','normal');doc.setTextColor(15,41,7);
-      const wrapped=doc.splitTextToSize('• '+t.slice(2),maxW-4);
-      checkPage(wrapped.length*5+2);doc.text(wrapped,margin+3,y);y+=wrapped.length*5+2;
-    }else{
-      doc.setFontSize(10);doc.setFont('helvetica','normal');doc.setTextColor(15,41,7);
-      const wrapped=doc.splitTextToSize(t,maxW);
-      checkPage(wrapped.length*5+2);doc.text(wrapped,margin,y);y+=wrapped.length*5+2;
-    }
-  }
-
-  const total=doc.internal.getNumberOfPages();
-  for(let i=1;i<=total;i++){
-    doc.setPage(i);doc.setFontSize(8);doc.setTextColor(178,177,154);
-    doc.text('Created by The Arabella Solution',pageW/2,pageH-8,{align:'center'});
-    doc.text(`${i} / ${total}`,pageW-margin,pageH-8,{align:'right'});
-  }
-  doc.save(`THS-Protocol-${document.getElementById('name').value.trim()||'client'}.pdf`);
-}
-
-function renderProtocol(text){
-  return text.split('\n').map(line=>{
-    if(!line.trim())return '<div style="height:6px"></div>';
-    if(line.startsWith('## '))return `<h2>${line.slice(3)}</h2>`;
-    if(line.startsWith('### '))return `<h3>${line.slice(4)}</h3>`;
-    if(line.startsWith('# '))return `<h1 style="font-size:20px;margin-top:28px;margin-bottom:8px">${line.slice(2)}</h1>`;
-    if(line.startsWith('- ')||line.startsWith('• '))return `<div class="bullet"><span class="dot">•</span><span class="txt">${fmt(line.slice(2))}</span></div>`;
-    return `<p>${fmt(line)}</p>`;
-  }).join('');
-}
-function fmt(t){
-  return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>');
+function showError(msg){
+  document.getElementById('loadingBox').style.display='none';
+  document.getElementById('errorBox').style.display='block';
+  document.getElementById('errorBox').textContent=msg;
+  document.getElementById('generateBtn').disabled=false;
 }
 </script>
 </body>
