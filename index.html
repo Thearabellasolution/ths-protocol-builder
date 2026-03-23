@@ -4,8 +4,18 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>The Healing Solution — Protocol Builder</title>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script>emailjs.init("RLhDGB18biQ1Nl80Q");</script>
+<script>
+function loadEmailJS(){
+  return new Promise((res) => {
+    if(window.emailjs){ res(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js';
+    s.onload = () => { emailjs.init("RLhDGB18biQ1Nl80Q"); res(); };
+    s.onerror = () => { console.warn('EmailJS failed to load'); res(); };
+    document.head.appendChild(s);
+  });
+}
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#FDFBF6;font-family:system-ui,sans-serif;color:#0F2907;padding:24px 16px}
@@ -432,6 +442,7 @@ RESPONSIBILITIES: ${v('responsibilities')}`;
 
     // Email notification
     try{
+      await loadEmailJS();
       await emailjs.send('service_x0howor','template_ln26mjw',{
         client_name: name,
         client_age: v('age'),
